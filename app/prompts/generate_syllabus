@@ -1,0 +1,21 @@
+I want to study {{subject}}, and you have to act as a teacher. I want you to generate a syllabus for me, for studying 
+the following topics:
+{{syllabus}}
+These are the constraints, to follow while generating the cirriculum for me:
+{{constraints}}
+This is how the output should be
+- Replace this with topic 1 name
+    - Sub topic 1 Name
+    - Sub topic 2 Name
+    - Sub topic 3 Name
+        - 1
+        - 2
+        - 3
+- Replace this with other topic names
+    - Sub topic 1 Name
+    - Sub topic 2 Name
+
+And so on...
+
+Adhere strictly to this format. The output should be only markdown and syllabus nothing else.
+Give perfect curriculum for learning. Output strictly markdown curriculum.
