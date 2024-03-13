@@ -1,8 +1,8 @@
 import os
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 from openai import OpenAI
-from pathlib import Path
+
+from app.models import CurriculumRequest
 
 
 OPENAI_API_KEY = "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"
@@ -11,12 +11,6 @@ OPENAI_API_KEY = "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"
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 app = FastAPI()
-
-
-class CurriculumRequest(BaseModel):
-    syllabus: str
-    constraints: str
-    subject: str
 
 
 def get_prompt(filename, variables):
