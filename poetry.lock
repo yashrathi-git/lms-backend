@@ -287,6 +287,17 @@ MarkupSafe = ">=2.0"
 i18n = ["Babel (>=2.7)"]
 
 [[package]]
+name = "markdown-to-json"
+version = "2.1.0"
+description = "Markdown to dict and json deserializer"
+optional = false
+python-versions = ">=3.6.2"
+files = [
+    {file = "markdown_to_json-2.1.0-py3-none-any.whl", hash = "sha256:44a17e3ff42af4f049fa2a6a86efbe30e27dcf8401c7ad1772b97b2d396d88f8"},
+    {file = "markdown_to_json-2.1.0.tar.gz", hash = "sha256:ea02313f7c5e8d05033d7a2b4e7c891246bc8f6391e1681760579687e6b0ba68"},
+]
+
+[[package]]
 name = "markupsafe"
 version = "2.1.5"
 description = "Safely add untrusted strings to HTML/XML markup."
@@ -1044,4 +1055,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ceabad6e713b2cf956c2b8b07f904f776f0be7da2902086228a144264a0dce53"
+content-hash = "5f133dca6e0a3ad09406b00fc2d1f5542169a110d4e55bf4f1d416c552f39522"
