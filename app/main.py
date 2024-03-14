@@ -74,14 +74,14 @@ async def create_curriculum(request: CurriculumRequest):
 
 def generate_material(subtopics: list, constraint: str, subject: str):
     try:
-        generated_material = ""  # Initialize with a main Heading
+        generated_material = ""
 
         for i, subtopic in enumerate(subtopics):
             print("Subtopic: ", subtopic)
             generated_material += f"## {subtopic}\n\n"
-            # Prepare the prompt text for each subtopic
             prompt_text = (
-                f"Please write study material for the subtopic: '{subtopic}'. "
+                f"I am learning {subject}. I am currently studying the topic: '{subtopics[0]}'. "
+                f"Please write study material for the subtopic: '{subtopic}' in {subject}. "
                 "You should start with a '##' heading for the subtopic title. "
                 "For any subdivisions or additional headings within this subtopic, "
                 "use '###' headings or lower. Do not use '##' headings except for the initial title of each subtopic."
@@ -97,21 +97,17 @@ def generate_material(subtopics: list, constraint: str, subject: str):
                 },
             ]
 
-            # Request GPT to generate content for the subtopic
             response = client.chat.completions.create(
                 model="gpt-4",
                 messages=messages,
                 temperature=0.5,
-                max_tokens=1024,  # adjust as needed
             )
 
             content = response.choices[0].message.content
 
-            # Since only one H2 and the rest should be H3
             if i == 0:
                 generated_material += content + "\n"
             else:
-                # Replace ## with ### if it's not the first subtopic
                 adjusted_content = content.replace("## ", "### ", 1)
                 generated_material += adjusted_content + "\n"
 
@@ -179,6 +175,5 @@ async def generate_md(request: MarkdownCurriculumRequest):
         )
 
     gen(curriculum_json, constraint=request.constraints, subject=request.subject)
-    # return the out.md file
     with open("out.md", "r") as f:
         return {"markdown": f.read()}
