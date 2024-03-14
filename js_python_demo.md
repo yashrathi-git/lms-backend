@@ -1,97 +1,86 @@
-- [Introduction to JavaScript](#introduction-to-javascript)
-   * [Overview of JavaScript](#overview-of-javascript)
-   * [Overview of JavaScript](#overview-of-javascript-1)
-      + [History of JavaScript](#history-of-javascript)
-      + [Features of JavaScript](#features-of-javascript)
-      + [JavaScript Syntax](#javascript-syntax)
-      + [Variables in JavaScript](#variables-in-javascript)
-      + [Functions in JavaScript](#functions-in-javascript)
-      + [Loops in JavaScript](#loops-in-javascript)
-      + [JavaScript and the DOM](#javascript-and-the-dom)
-      + [JavaScript Libraries and Frameworks](#javascript-libraries-and-frameworks)
-      + [Conclusion](#conclusion)
-- [Introduction to JavaScript](#introduction-to-javascript-1)
-   * [Brief History of JavaScript](#brief-history-of-javascript)
-   * [Brief History of JavaScript](#brief-history-of-javascript-1)
-      + [The Birth of JavaScript](#the-birth-of-javascript)
-      + [Evolution and Standardization](#evolution-and-standardization)
-      + [The Browser Wars and JavaScript](#the-browser-wars-and-javascript)
-      + [Modern JavaScript](#modern-javascript)
-      + [JavaScript Today](#javascript-today)
-   * [Understanding the JavaScript Engine](#understanding-the-javascript-engine)
-      + [Understanding the JavaScript Engine](#understanding-the-javascript-engine-1)
-      + [JavaScript Engine Components](#javascript-engine-components)
-         - [Parser](#parser)
-         - [Interpreter](#interpreter)
-         - [Compiler](#compiler)
-      + [Event Loop and Call Stack](#event-loop-and-call-stack)
-         - [Call Stack](#call-stack)
-         - [Event Loop](#event-loop)
-      + [JavaScript Runtime Environment](#javascript-runtime-environment)
-      + [JavaScript Engine Optimization](#javascript-engine-optimization)
-         - [Inline Caching](#inline-caching)
-         - [Hidden Classes](#hidden-classes)
-      + [Conclusion](#conclusion-1)
-   * [JavaScript vs Python: Key Differences](#javascript-vs-python-key-differences)
-      + [JavaScript vs Python: Key Differences](#javascript-vs-python-key-differences-1)
-      + [Syntax](#syntax)
-      + [Use Cases](#use-cases)
-      + [Performance](#performance)
-      + [Concurrency](#concurrency)
-      + [Community and Libraries](#community-and-libraries)
-- [JavaScript Syntax and Variables](#javascript-syntax-and-variables)
-   * [JavaScript Syntax Overview](#javascript-syntax-overview)
-   * [JavaScript Syntax Overview](#javascript-syntax-overview-1)
-      + [Variables](#variables)
-      + [Data Types](#data-types)
-      + [Operators](#operators)
-      + [Control Flow](#control-flow)
-      + [Functions](#functions)
-      + [Objects](#objects)
-      + [Arrays](#arrays)
-      + [Error Handling](#error-handling)
-   * [Declaring Variables](#declaring-variables)
-      + [Declaring Variables](#declaring-variables-1)
-      + [Variable Assignment](#variable-assignment)
-      + [Variable Naming Rules](#variable-naming-rules)
-      + [Multiple Assignment](#multiple-assignment)
-      + [Variable Types](#variable-types)
-      + [Changing Variable Types](#changing-variable-types)
-   * [Data Types in JavaScript](#data-types-in-javascript)
-      + [Data Types in JavaScript](#data-types-in-javascript-1)
-      + [Primitive Data Types](#primitive-data-types)
-         - [Undefined](#undefined)
-         - [Null](#null)
-         - [Boolean](#boolean)
-         - [String](#string)
-         - [Symbol](#symbol)
-         - [Number](#number)
-      + [Non-Primitive Data Types](#non-primitive-data-types)
-         - [Object](#object)
-         - [Array](#array)
-         - [Function](#function)
-      + [Type Conversion](#type-conversion)
-- [Control Structures](#control-structures)
-   * [Conditional Statements](#conditional-statements)
-   * [Conditional Statements in Python](#conditional-statements-in-python)
-      + [The 'if' Statement](#the-if-statement)
-      + [The 'elif' Statement](#the-elif-statement)
-      + [The 'else' Statement](#the-else-statement)
-      + [Ternary Operator](#ternary-operator)
-      + [Nested Conditional Statements](#nested-conditional-statements)
-   * [Loops in JavaScript](#loops-in-javascript-1)
-      + [Loops in JavaScript](#loops-in-javascript-2)
-      + [For Loop](#for-loop)
-      + [While Loop](#while-loop)
-      + [Do-While Loop](#do-while-loop)
-      + [For-In Loop](#for-in-loop)
-      + [For-Of Loop](#for-of-loop)
-   * [Break and Continue](#break-and-continue)
-      + [Break and Continue in Python](#break-and-continue-in-python)
-      + [Break Statement](#break-statement)
-      + [Continue Statement](#continue-statement)
-      + [Differences between Break and Continue](#differences-between-break-and-continue)
+# Javascript
 
+- [Introduction to JavaScript](#introduction-to-javascript-1)
+  - [Brief History of JavaScript](#brief-history-of-javascript)
+  - [Brief History of JavaScript](#brief-history-of-javascript-1)
+    - [The Birth of JavaScript](#the-birth-of-javascript)
+    - [Evolution and Standardization](#evolution-and-standardization)
+    - [The Browser Wars and JavaScript](#the-browser-wars-and-javascript)
+    - [Modern JavaScript](#modern-javascript)
+    - [JavaScript Today](#javascript-today)
+  - [Understanding the JavaScript Engine](#understanding-the-javascript-engine)
+    - [Understanding the JavaScript Engine](#understanding-the-javascript-engine-1)
+    - [JavaScript Engine Components](#javascript-engine-components)
+      - [Parser](#parser)
+      - [Interpreter](#interpreter)
+      - [Compiler](#compiler)
+    - [Event Loop and Call Stack](#event-loop-and-call-stack)
+      - [Call Stack](#call-stack)
+      - [Event Loop](#event-loop)
+    - [JavaScript Runtime Environment](#javascript-runtime-environment)
+    - [JavaScript Engine Optimization](#javascript-engine-optimization)
+      - [Inline Caching](#inline-caching)
+      - [Hidden Classes](#hidden-classes)
+    - [Conclusion](#conclusion-1)
+  - [JavaScript vs Python: Key Differences](#javascript-vs-python-key-differences)
+    - [JavaScript vs Python: Key Differences](#javascript-vs-python-key-differences-1)
+    - [Syntax](#syntax)
+    - [Use Cases](#use-cases)
+    - [Performance](#performance)
+    - [Concurrency](#concurrency)
+    - [Community and Libraries](#community-and-libraries)
+- [JavaScript Syntax and Variables](#javascript-syntax-and-variables)
+  - [JavaScript Syntax Overview](#javascript-syntax-overview)
+  - [JavaScript Syntax Overview](#javascript-syntax-overview-1)
+    - [Variables](#variables)
+    - [Data Types](#data-types)
+    - [Operators](#operators)
+    - [Control Flow](#control-flow)
+    - [Functions](#functions)
+    - [Objects](#objects)
+    - [Arrays](#arrays)
+    - [Error Handling](#error-handling)
+  - [Declaring Variables](#declaring-variables)
+    - [Declaring Variables](#declaring-variables-1)
+    - [Variable Assignment](#variable-assignment)
+    - [Variable Naming Rules](#variable-naming-rules)
+    - [Multiple Assignment](#multiple-assignment)
+    - [Variable Types](#variable-types)
+    - [Changing Variable Types](#changing-variable-types)
+  - [Data Types in JavaScript](#data-types-in-javascript)
+    - [Data Types in JavaScript](#data-types-in-javascript-1)
+    - [Primitive Data Types](#primitive-data-types)
+      - [Undefined](#undefined)
+      - [Null](#null)
+      - [Boolean](#boolean)
+      - [String](#string)
+      - [Symbol](#symbol)
+      - [Number](#number)
+    - [Non-Primitive Data Types](#non-primitive-data-types)
+      - [Object](#object)
+      - [Array](#array)
+      - [Function](#function)
+    - [Type Conversion](#type-conversion)
+- [Control Structures](#control-structures)
+  - [Conditional Statements](#conditional-statements)
+  - [Conditional Statements in Python](#conditional-statements-in-python)
+    - [The 'if' Statement](#the-if-statement)
+    - [The 'elif' Statement](#the-elif-statement)
+    - [The 'else' Statement](#the-else-statement)
+    - [Ternary Operator](#ternary-operator)
+    - [Nested Conditional Statements](#nested-conditional-statements)
+  - [Loops in JavaScript](#loops-in-javascript-1)
+    - [Loops in JavaScript](#loops-in-javascript-2)
+    - [For Loop](#for-loop)
+    - [While Loop](#while-loop)
+    - [Do-While Loop](#do-while-loop)
+    - [For-In Loop](#for-in-loop)
+    - [For-Of Loop](#for-of-loop)
+  - [Break and Continue](#break-and-continue)
+    - [Break and Continue in Python](#break-and-continue-in-python)
+    - [Break Statement](#break-statement)
+    - [Continue Statement](#continue-statement)
+    - [Differences between Break and Continue](#differences-between-break-and-continue)
 
 # Introduction to JavaScript
 
@@ -134,6 +123,7 @@ JavaScript's functionality can be extended with various libraries and frameworks
 ### Conclusion
 
 JavaScript is a versatile language that plays a crucial role in modern web development. Its ability to create interactive web pages, along with its integration with HTML and CSS, makes it an essential skill for any web developer.
+
 # Introduction to JavaScript
 
 ## Brief History of JavaScript
@@ -163,6 +153,7 @@ In 2008, Google launched Chrome with the V8 JavaScript engine, which compiled Ja
 ### JavaScript Today
 
 Today, JavaScript is essential for web development, both on the client-side and, with the advent of Node.js, on the server-side as well. It has evolved from a simple scripting language to a tool for building complex web applications. Its history is marked by its resilience and adaptability, and it continues to be one of the most popular and influential programming languages in the world.
+
 ## Understanding the JavaScript Engine
 
 ### Understanding the JavaScript Engine
@@ -214,6 +205,7 @@ Hidden classes are a way to optimize object property access. When an object is i
 ### Conclusion
 
 Understanding the JavaScript Engine is crucial for any serious JavaScript developer. It allows you to write more efficient code and understand why your code behaves the way it does. It's important to remember that different browsers may use different engines, each with its unique characteristics and behaviors.
+
 ## JavaScript vs Python: Key Differences
 
 ### JavaScript vs Python: Key Differences
@@ -249,6 +241,7 @@ Python, on the other hand, has a Global Interpreter Lock (GIL) that allows only 
 Both JavaScript and Python have large, active communities and a wealth of libraries and frameworks. JavaScript has libraries like React, Angular, and Vue for front-end development, and Express.js for back-end development.
 
 Python has libraries like Django and Flask for web development, NumPy, Pandas, and Matplotlib for data analysis, and TensorFlow, Keras, and PyTorch for machine learning.
+
 # JavaScript Syntax and Variables
 
 ## JavaScript Syntax Overview
@@ -272,9 +265,9 @@ const pi = 3.14;
 JavaScript has dynamic types. The same variable can be used to hold different data types:
 
 ```javascript
-var x;           // undefined
-x = 5;           // number
-x = "John";      // string
+var x; // undefined
+x = 5; // number
+x = "John"; // string
 ```
 
 The data types are `Number`, `String`, `Boolean`, `Object`, `Null`, and `Undefined`.
@@ -284,9 +277,9 @@ The data types are `Number`, `String`, `Boolean`, `Object`, `Null`, and `Undefin
 JavaScript uses arithmetic operators (`+ - * / % ** ++ --`), assignment operators (`= += -= *= /= %= **=`), comparison operators (`== != === !== > < >= <=`), and logical operators (`&& || !`).
 
 ```javascript
-var x = 5;          // assignment
-x += 3;             // addition assignment (x = x + 3)
-var isAdult = age >= 18;  // comparison
+var x = 5; // assignment
+x += 3; // addition assignment (x = x + 3)
+var isAdult = age >= 18; // comparison
 ```
 
 ### Control Flow
@@ -295,13 +288,13 @@ JavaScript's control flow structures include `if`, `else`, `else if`, `switch`, 
 
 ```javascript
 if (age >= 18) {
-    console.log("Adult");
+  console.log("Adult");
 } else {
-    console.log("Not an adult");
+  console.log("Not an adult");
 }
 
 for (let i = 0; i < 5; i++) {
-    console.log(i);
+  console.log(i);
 }
 ```
 
@@ -311,7 +304,7 @@ Functions are defined using the `function` keyword. JavaScript also supports arr
 
 ```javascript
 function add(x, y) {
-    return x + y;
+  return x + y;
 }
 
 const multiply = (x, y) => x * y;
@@ -322,7 +315,7 @@ const multiply = (x, y) => x * y;
 Objects in JavaScript are similar to Python's dictionaries. They are defined using curly brackets `{}`.
 
 ```javascript
-let person = {firstName:"John", lastName:"Doe", age:30, eyeColor:"blue"};
+let person = { firstName: "John", lastName: "Doe", age: 30, eyeColor: "blue" };
 ```
 
 ### Arrays
@@ -339,12 +332,14 @@ JavaScript uses `try`, `catch`, `throw`, and `finally` for error handling.
 
 ```javascript
 try {
-    add("5", "6");
-} catch(err) {
-    console.log(err.message);
+  add("5", "6");
+} catch (err) {
+  console.log(err.message);
 }
 ```
+
 This brief overview should get you started with JavaScript. Remember, practice is key when learning a new language. Happy coding!
+
 ## Declaring Variables
 
 ### Declaring Variables
@@ -368,7 +363,7 @@ Python has a few rules and conventions for variable names:
 
 - A variable name must start with a letter or the underscore character.
 - A variable name cannot start with a number.
-- A variable name can only contain alpha-numeric characters and underscores (A-z, 0-9, and _ ).
+- A variable name can only contain alpha-numeric characters and underscores (A-z, 0-9, and \_ ).
 - Variable names are case-sensitive (`age`, `Age` and `AGE` are three different variables).
 
 ### Multiple Assignment
@@ -413,6 +408,7 @@ x = "Sally" # x is now of type str
 ```
 
 Python is a dynamically typed language, meaning the Python interpreter infers the type of a variable based on the type of its value at runtime. This means that a variable that was initially used to store a string, for example, can later be used to store an integer or a boolean.
+
 ## Data Types in JavaScript
 
 ### Data Types in JavaScript
@@ -429,7 +425,7 @@ An uninitialized variable is of type `undefined`. For example:
 
 ```javascript
 let variable;
-console.log(typeof variable);  // "undefined"
+console.log(typeof variable); // "undefined"
 ```
 
 #### Null
@@ -438,7 +434,7 @@ console.log(typeof variable);  // "undefined"
 
 ```javascript
 let variable = null;
-console.log(typeof variable);  // "object"
+console.log(typeof variable); // "object"
 ```
 
 #### Boolean
@@ -447,7 +443,7 @@ A `boolean` represents logical entities. It can hold two values: `true` or `fals
 
 ```javascript
 let isCodingFun = true;
-console.log(typeof isCodingFun);  // "boolean"
+console.log(typeof isCodingFun); // "boolean"
 ```
 
 #### String
@@ -455,8 +451,8 @@ console.log(typeof isCodingFun);  // "boolean"
 A `string` is a sequence of characters in JavaScript. It can be created using either single, double, or backticks (`` ` ``).
 
 ```javascript
-let name = 'JavaScript';
-console.log(typeof name);  // "string"
+let name = "JavaScript";
+console.log(typeof name); // "string"
 ```
 
 #### Symbol
@@ -464,8 +460,8 @@ console.log(typeof name);  // "string"
 Introduced in ES6, `symbol` is a unique and immutable data type that can be used as a key for object properties.
 
 ```javascript
-let symbol1 = Symbol('symbol');
-console.log(typeof symbol1);  // "symbol"
+let symbol1 = Symbol("symbol");
+console.log(typeof symbol1); // "symbol"
 ```
 
 #### Number
@@ -474,7 +470,7 @@ console.log(typeof symbol1);  // "symbol"
 
 ```javascript
 let num = 5;
-console.log(typeof num);  // "number"
+console.log(typeof num); // "number"
 ```
 
 ### Non-Primitive Data Types
@@ -486,8 +482,8 @@ Non-Primitive data types include: object, array, and function.
 An `object` is a collection of properties, and a property is an association between a name (or key) and a value.
 
 ```javascript
-let student = {firstName: 'John', lastName: 'Doe', age: 20};
-console.log(typeof student);  // "object"
+let student = { firstName: "John", lastName: "Doe", age: 20 };
+console.log(typeof student); // "object"
 ```
 
 #### Array
@@ -496,7 +492,7 @@ An `array` is a special type of object used for storing multiple values in a sin
 
 ```javascript
 let array = [1, 2, 3, 4, 5];
-console.log(typeof array);  // "object"
+console.log(typeof array); // "object"
 ```
 
 #### Function
@@ -505,9 +501,9 @@ In JavaScript, `functions` are objects. A function is a set of statements that p
 
 ```javascript
 function greet() {
-  return 'Hello, World!';
+  return "Hello, World!";
 }
-console.log(typeof greet);  // "function"
+console.log(typeof greet); // "function"
 ```
 
 ### Type Conversion
@@ -515,14 +511,15 @@ console.log(typeof greet);  // "function"
 JavaScript is a dynamically typed language, which means you don't need to specify the data type of a variable when declaring it. JavaScript automatically converts types as needed during the execution of the program. However, you can also explicitly change the data type of a variable using methods like `Number()`, `String()`, and `Boolean()`.
 
 ```javascript
-let value = '123';
-console.log(typeof value);  // "string"
+let value = "123";
+console.log(typeof value); // "string"
 
 value = Number(value);
-console.log(typeof value);  // "number"
+console.log(typeof value); // "number"
 ```
 
 In conclusion, while JavaScript's data types are similar to Python's, there are some important differences to note, such as the `symbol` type and JavaScript's dynamic type conversion.
+
 # Control Structures
 
 ## Conditional Statements
@@ -533,7 +530,7 @@ Conditional statements in Python allow the program to evaluate certain condition
 
 ### The 'if' Statement
 
-The `if` statement is the most basic type of conditional statement in Python. It checks if a condition is true and, if it is, the code within the block is executed. 
+The `if` statement is the most basic type of conditional statement in Python. It checks if a condition is true and, if it is, the code within the block is executed.
 
 ```python
 x = 10
@@ -592,6 +589,7 @@ else:
 ```
 
 Remember, it's important to keep your code readable, especially with nested conditional statements. Use them sparingly and wisely.
+
 ## Loops in JavaScript
 
 ### Loops in JavaScript
@@ -604,9 +602,10 @@ A `for` loop repeats until a specified condition evaluates to false. The JavaScr
 
 ```javascript
 for (let i = 0; i < 5; i++) {
-    console.log(i);
+  console.log(i);
 }
 ```
+
 In the above example, the loop will start at 0 and increment by 1 each time until it reaches 4.
 
 ### While Loop
@@ -616,10 +615,11 @@ A `while` loop executes its statements as long as a specified condition evaluate
 ```javascript
 let i = 0;
 while (i < 5) {
-    console.log(i);
-    i++;
+  console.log(i);
+  i++;
 }
 ```
+
 In the above example, the loop will continue to execute as long as `i` is less than 5.
 
 ### Do-While Loop
@@ -629,11 +629,11 @@ The `do-while` loop is similar to the `while` loop, but it will execute the bloc
 ```javascript
 let i = 0;
 do {
-    console.log(i);
-    i++;
-}
-while (i < 5);
+  console.log(i);
+  i++;
+} while (i < 5);
 ```
+
 In the above example, the loop will always be executed at least once, even if `i` is not less than 5, because the code block is executed before the condition is tested.
 
 ### For-In Loop
@@ -641,11 +641,12 @@ In the above example, the loop will always be executed at least once, even if `i
 The `for-in` loop is used to loop through the properties of an object. The block of code will be executed once for each property.
 
 ```javascript
-let obj = {a: 1, b: 2, c: 3};
+let obj = { a: 1, b: 2, c: 3 };
 for (let prop in obj) {
-    console.log(`${prop}: ${obj[prop]}`);
+  console.log(`${prop}: ${obj[prop]}`);
 }
 ```
+
 In the above example, the loop will log the name and value of each property in the object.
 
 ### For-Of Loop
@@ -655,12 +656,14 @@ The `for-of` loop is used to loop over iterable objects, like arrays, strings, e
 ```javascript
 let arr = [1, 2, 3, 4, 5];
 for (let value of arr) {
-    console.log(value);
+  console.log(value);
 }
 ```
+
 In the above example, the loop will log each value in the array.
 
 Remember, choosing the right loop for the right situation is a key aspect of efficient programming.
+
 ## Break and Continue
 
 ### Break and Continue in Python
@@ -678,6 +681,7 @@ for i in range(10):
     print(i)
 # Output: 0 1 2 3 4
 ```
+
 In the above example, the loop is designed to print numbers from 0 to 9. But the 'break' statement causes the loop to terminate when 'i' equals 5.
 
 ### Continue Statement
@@ -691,6 +695,7 @@ for i in range(10):
     print(i)
 # Output: 0 1 2 3 4 6 7 8 9
 ```
+
 In this example, the loop is set to print numbers from 0 to 9. However, when 'i' equals 5, the 'continue' statement is encountered and the print function for that iteration is skipped. The loop then continues with the next iteration.
 
 ### Differences between Break and Continue
@@ -698,5 +703,3 @@ In this example, the loop is set to print numbers from 0 to 9. However, when 'i'
 While both 'break' and 'continue' alter the flow of a loop, they do so in different ways. 'Break' completely exits the loop, while 'continue' skips the current iteration and proceeds to the next one. The use of either depends on the specific requirements of your code.
 
 Remember, excessive use of 'break' and 'continue' can make code less readable and harder to debug. It's often better to control the flow of your program using conditional statements and logical expressions where possible.
-
-
