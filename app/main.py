@@ -2,12 +2,20 @@ import json
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from .utils import md_to_json
 from openai import OpenAI
 from dotenv import load_dotenv
 from app.models import CurriculumRequest, MarkdownCurriculumRequest
 import app.system_prompts as sp
 from app.utils import get_prompt
 import os
+import logging
+from rich.logging import RichHandler
+
+logging.basicConfig(
+    level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()]
+)
+
 
 origins = [
     "http://127.0.0.1:5500",
@@ -87,12 +95,11 @@ def generate_material(subtopics: list, constraint: str, subject: str):
         )
 
 
-def gen(md_json, constraint, subject):
+def gen(curr, constraint, subject):
     print("Generating")
     c = ""
     try:
-        curriculum_json = json.loads(md_json)
-        for t in curriculum_json:
+        for t in curr:
             topic = t["topic"]
             print("Gen Topic: ", topic)
 
@@ -112,16 +119,8 @@ def gen(md_json, constraint, subject):
 @app.post("/generate_md/")
 async def generate_md(request: MarkdownCurriculumRequest):
     try:
-        messages = get_prompt(
-            "generate_json",
-            {"markdown_text": request.markdown_text},
-            sp.CONVERT_TO_JSON_PROMPT,
-        )
-        response = client.chat.completions.create(
-            model=MODEL, messages=messages, temperature=0.1, max_tokens=512
-        )
-
-        curriculum_json = response.choices[0].message.content
+        curr = md_to_json(request.markdown_text)
+        print(curr)
 
     except Exception as e:
         raise HTTPException(
@@ -129,6 +128,6 @@ async def generate_md(request: MarkdownCurriculumRequest):
             detail=f"An error occurred while converting to JSON: {str(e)}",
         )
 
-    gen(curriculum_json, constraint=request.constraints, subject=request.subject)
+    gen(curr, constraint=request.constraints, subject=request.subject)
     with open("out.md", "r") as f:
         return {"markdown": f.read()}

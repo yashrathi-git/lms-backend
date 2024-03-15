@@ -1,9 +1,11 @@
+import json
 import os
 from fastapi import HTTPException
 from rich.console import Console
 from rich.text import Text
 from rich.pretty import pprint
 import markdown_to_json
+
 
 console = Console()
 
@@ -50,15 +52,17 @@ def get_prompt(filename, variables, prompt_text):
     return structured_prompt
 
 
-def md_to_json(value: str):
-    jsonified = markdown_to_json.jsonify(value)
+def md_to_json(data):
+    jsonified = markdown_to_json.jsonify(data)
     jsonified = json.loads(jsonified)
+    output = []
+    root_list = jsonified["root"][0]  # Accessing the nested list under 'root'
 
-    curriculum = {"topic": jsonified["root"][0][0], "subtopic": []}
+    for i in range(0, len(root_list), 2):
+        topic = root_list[i]
+        if i + 1 < len(root_list):  # Check to prevent index out of range
+            subtopics = root_list[i + 1]
+            if isinstance(subtopics, list):  # Ensure that subtopics is a list
+                output.append({"topic": topic, "subtopics": subtopics})
 
-    for i in range(0, len(jsonified["root"][0][1])):
-        if i % 2 == 0:
-            curriculum["subtopic"].append(jsonified["root"][0][1][i])
-        else:
-            curriculum["subtopic"].append(jsonified["root"][0][1][i][0])
-    return curriculum
+    return output
