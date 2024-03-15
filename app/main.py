@@ -12,7 +12,7 @@ import os
 origins = [
     "http://127.0.0.1:5500",
 ]
-MODEL = "gpt-4"
+MODEL = MODEL
 
 load_dotenv()
 
@@ -38,7 +38,7 @@ async def create_curriculum(request: CurriculumRequest):
         prompt_text = get_prompt("generate_syllabus", dict(request), ptext)
 
         response = client.chat.completions.create(
-            model="gpt-4", messages=prompt_text, temperature=0.1
+            model=MODEL, messages=prompt_text, temperature=0.1
         )
 
         curriculum_text = response.choices[0].message.content
@@ -65,7 +65,7 @@ def generate_material(subtopics: list, constraint: str, subject: str):
             )
 
             response = client.chat.completions.create(
-                model="gpt-4",
+                model=MODEL,
                 messages=messages,
                 temperature=0.1,
             )
@@ -118,7 +118,7 @@ async def generate_md(request: MarkdownCurriculumRequest):
             sp.CONVERT_TO_JSON_PROMPT,
         )
         response = client.chat.completions.create(
-            model="gpt-4", messages=messages, temperature=0.1, max_tokens=512
+            model=MODEL, messages=messages, temperature=0.1, max_tokens=512
         )
 
         curriculum_json = response.choices[0].message.content
