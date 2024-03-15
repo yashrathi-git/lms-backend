@@ -1,5 +1,14 @@
 import os
 from fastapi import HTTPException
+import logging
+from rich.logging import RichHandler
+
+FORMAT = "%(asctime)s - [%(levelname)s] - %(message)s"
+logging.basicConfig(
+    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+)
+
+log = logging.getLogger("rich")
 
 
 def _get_prompt(filename, variables):
@@ -30,4 +39,8 @@ def get_prompt(filename, variables, prompt_text):
             "content": prompt_text,
         },
     ]
+    log.info("Filename: %s", filename)
+    log.info("Variables: %s", variables)
+    log.info("Prompt Text: %s", prompt_text)
+    log.info(prompt_text)
     return _get_prompt(filename, variables)
