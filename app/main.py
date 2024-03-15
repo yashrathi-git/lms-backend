@@ -12,7 +12,7 @@ import os
 origins = [
     "http://127.0.0.1:5500",
 ]
-MODEL = MODEL
+MODEL = "gpt-4"
 
 load_dotenv()
 
