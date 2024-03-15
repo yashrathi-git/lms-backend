@@ -11,6 +11,8 @@ from app.utils import get_prompt
 import os
 import logging
 from rich.logging import RichHandler
+from .async_content_generation import generate_material
+from .config import MODEL, OPENAI_API_KEY
 
 logging.basicConfig(
     level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()]
@@ -20,11 +22,6 @@ logging.basicConfig(
 origins = [
     "http://127.0.0.1:5500",
 ]
-MODEL = "gpt-4"
-
-load_dotenv()
-
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
 client = OpenAI(api_key=OPENAI_API_KEY)
@@ -58,64 +55,6 @@ async def create_curriculum(request: CurriculumRequest):
         )
 
 
-def generate_material(subtopics: list, constraint: str, subject: str):
-    try:
-        generated_material = ""
-
-        for i, subtopic in enumerate(subtopics):
-            print("Subtopic: ", subtopic)
-            generated_material += f"## {subtopic}\n\n"
-            # Prepare the prompt text for each subtopic
-            messages = get_prompt(
-                "generate_material",
-                {"subtopic": subtopic, "constraint": constraint},
-                sp.GENERATE_MATERIAL_PROMPT,
-            )
-
-            response = client.chat.completions.create(
-                model=MODEL,
-                messages=messages,
-                temperature=0.1,
-            )
-
-            content = response.choices[0].message.content
-
-            if i == 0:
-                generated_material += content + "\n"
-            else:
-                adjusted_content = content.replace("## ", "### ", 1)
-                generated_material += adjusted_content + "\n"
-
-        return generated_material
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while generating material for subtopics: {str(e)}",
-        )
-
-
-def gen(curr, constraint, subject):
-    print("Generating")
-    c = ""
-    try:
-        for t in curr:
-            topic = t["topic"]
-            print("Gen Topic: ", topic)
-
-            c += "# " + t["topic"] + "\n\n"
-            c += generate_material(t["subtopics"], constraint, subject)
-        print(c)
-        print("Writing to file")
-        with open("out.md", "a") as f:
-            f.write(c + "\n\n")
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while generating material for subtopics: {str(e)}",
-        )
-
-
 @app.post("/generate_md/")
 async def generate_md(request: MarkdownCurriculumRequest):
     try:
@@ -128,6 +67,6 @@ async def generate_md(request: MarkdownCurriculumRequest):
             detail=f"An error occurred while converting to JSON: {str(e)}",
         )
 
-    gen(curr, constraint=request.constraints, subject=request.subject)
+    generate_material(curr, constraint=request.constraints, subject=request.subject)
     with open("out.md", "r") as f:
         return {"markdown": f.read()}
