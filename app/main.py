@@ -52,7 +52,7 @@ async def create_curriculum(request: CurriculumRequest):
 
 def generate_material(subtopics: list, constraint: str, subject: str):
     try:
-        generated_material = ""  # Initialize with a main Heading
+        generated_material = ""
 
         for i, subtopic in enumerate(subtopics):
             print("Subtopic: ", subtopic)
@@ -130,6 +130,5 @@ async def generate_md(request: MarkdownCurriculumRequest):
         )
 
     gen(curriculum_json, constraint=request.constraints, subject=request.subject)
-    # return the out.md file
     with open("out.md", "r") as f:
         return {"markdown": f.read()}
