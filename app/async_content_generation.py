@@ -1,22 +1,21 @@
 from fastapi import HTTPException
-
 from app.config import MODEL, OPENAI_API_KEY
+from app.db import create_notes
 from app.utils import get_prompt
 import app.system_prompts as sp
+from openai import OpenAI
 
-from openai import OpenAI, AsyncOpenAI
-
-
+# Assuming OPENAI_API_KEY & MODEL are defined in your app.config
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 
-def subtopic_generate_material(subtopics: list, constraint: str, subject: str):
+def subtopic_generate_material(
+    subtopics: list, constraint: str, subject: str, user_id: str
+):
     try:
-        generated_material = ""
-
-        for i, subtopic in enumerate(subtopics):
+        for subtopic in subtopics:
             print("Subtopic: ", subtopic)
-            generated_material += f"## {subtopic}\n\n"
+
             # Prepare the prompt text for each subtopic
             messages = get_prompt(
                 "generate_material",
@@ -31,14 +30,8 @@ def subtopic_generate_material(subtopics: list, constraint: str, subject: str):
             )
 
             content = response.choices[0].message.content
-
-            if i == 0:
-                generated_material += content + "\n"
-            else:
-                adjusted_content = content.replace("## ", "### ", 1)
-                generated_material += adjusted_content + "\n"
-
-        return generated_material
+            # Here you call create_notes to update Firestore
+            create_notes(user_id, subject, subtopic, constraint, content)
 
     except Exception as e:
         raise HTTPException(
@@ -47,22 +40,19 @@ def subtopic_generate_material(subtopics: list, constraint: str, subject: str):
         )
 
 
-def generate_material(curr, constraint, subject):
+def generate_material(curr, constraint, subject, user_id="default_userid"):
     print("Generating")
-    c = ""
+
     try:
         for t in curr:
             topic = t["topic"]
             print("Gen Topic: ", topic)
 
-            c += "# " + t["topic"] + "\n\n"
-            c += subtopic_generate_material(t["subtopics"], constraint, subject)
-        print(c)
-        print("Writing to file")
-        with open("out.md", "a") as f:
-            f.write(c + "\n\n")
+            # Now integrates directly with Firebase instead of writing to a file
+            subtopic_generate_material(t["subtopics"], constraint, subject, user_id)
+
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"An error occurred while generating material for subtopics: {str(e)}",
+            detail="An error occurred while generating material: " + str(e),
         )
