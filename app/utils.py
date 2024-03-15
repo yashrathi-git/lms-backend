@@ -5,7 +5,10 @@ from rich.logging import RichHandler
 
 FORMAT = "%(asctime)s - [%(levelname)s] - %(message)s"
 logging.basicConfig(
-    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+    level=logging.DEBUG,
+    format=FORMAT,
+    datefmt="[%X]",
+    handlers=[RichHandler(rich_tracebacks=True)],
 )
 
 log = logging.getLogger("rich")
@@ -33,10 +36,13 @@ def _get_prompt(filename, variables):
 
 def get_prompt(filename, variables, prompt_text):
     prompt_text = [
-        {"role": "user", "content": get_prompt(filename=filename, variables=variables)},
         {
             "role": "system",
             "content": prompt_text,
+        },
+        {
+            "role": "user",
+            "content": _get_prompt(filename=filename, variables=variables),
         },
     ]
     log.info("Filename: %s", filename)
