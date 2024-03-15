@@ -1,17 +1,10 @@
 import os
 from fastapi import HTTPException
-import logging
-from rich.logging import RichHandler
+from rich.console import Console
+from rich.text import Text
+from rich.pretty import pprint
 
-FORMAT = "%(asctime)s - [%(levelname)s] - %(message)s"
-logging.basicConfig(
-    level=logging.DEBUG,
-    format=FORMAT,
-    datefmt="[%X]",
-    handlers=[RichHandler(rich_tracebacks=True)],
-)
-
-log = logging.getLogger("rich")
+console = Console()
 
 
 def _get_prompt(filename, variables):
@@ -20,33 +13,37 @@ def _get_prompt(filename, variables):
         with open(os.path.join(path, filename), "r") as file:
             content = file.read()
     except FileNotFoundError:
-        raise HTTPException(
-            status_code=404, detail=f"File {filename} not found in the prompts folder"
-        )
+        error_message = f"File {filename} not found in the prompts folder"
+        console.print(Text(error_message, style="bold red"))
+        raise HTTPException(status_code=404, detail=error_message)
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while reading the file: {str(e)}",
-        )
+        error_message = f"An error occurred while reading the file: {str(e)}"
+        console.print(Text(error_message, style="bold red"))
+        raise HTTPException(status_code=500, detail=error_message)
+
     for key, value in variables.items():
-        content = content.replace(f"{{{key}}}", str(value))
+        content = content.replace("{{" + str(key) + "}}", str(value))
 
     return content
 
 
 def get_prompt(filename, variables, prompt_text):
-    prompt_text = [
+    final_content = _get_prompt(filename=filename, variables=variables)
+
+    structured_prompt = [
+        {
+            "role": "user",
+            "content": final_content,
+        },
         {
             "role": "system",
             "content": prompt_text,
         },
-        {
-            "role": "user",
-            "content": _get_prompt(filename=filename, variables=variables),
-        },
     ]
-    log.info("Filename: %s", filename)
-    log.info("Variables: %s", variables)
-    log.info("Prompt Text: %s", prompt_text)
-    log.info(prompt_text)
-    return _get_prompt(filename, variables)
+
+    console.print("[bold]Filename:[/bold]", filename)
+    console.print("[bold]Variables:[/bold]", variables)
+
+    pprint(structured_prompt)
+
+    return structured_prompt
