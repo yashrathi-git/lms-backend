@@ -113,7 +113,7 @@ def gen(md_json, constraint, subject):
 async def generate_md(request: MarkdownCurriculumRequest):
     try:
         messages = get_prompt(
-            "convert_to_json",
+            "generate_json",
             {"markdown_text": request.markdown_text},
             sp.CONVERT_TO_JSON_PROMPT,
         )
