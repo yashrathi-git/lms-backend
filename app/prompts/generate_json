@@ -1,0 +1,12 @@
+Convert the following markdown-formatted curriculum into a structured JSON format:
+{{markdown_text}}
+If the input is 
+- Topic: 
+  - Subtopic 1
+  - Subtopic 2
+  - Subtopic 3
+
+The desired JSON structure is: 
+[{"topic": "topicName", "subtopics": ["subtopic 1", "subtopic 2", "subtopic 3", "Sub Subtopic 1"]}, 
+{"topic": "topicName", "subtopics": ["subtopic 1", "subtopic 2", "subtopic 3"]}]
+The subtopics list should be flat, not nested. Only give the JSON structure and nothing else. It should be directly parsable.

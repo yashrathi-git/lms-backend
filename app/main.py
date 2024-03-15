@@ -5,16 +5,19 @@ from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI
 from dotenv import load_dotenv
 from app.models import CurriculumRequest, MarkdownCurriculumRequest
+import app.system_prompts as sp
+from app.utils import get_prompt
 import os
 
 origins = [
     "http://127.0.0.1:5500",
 ]
-
+MODEL = "gpt-4"
 
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
@@ -28,36 +31,11 @@ app.add_middleware(
 )
 
 
-def get_prompt(filename, variables):
-    path = "app/prompts/"
-    try:
-        with open(os.path.join(path, filename), "r") as file:
-            content = file.read()
-    except FileNotFoundError:
-        raise HTTPException(
-            status_code=404, detail=f"File {filename} not found in the prompts folder"
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while reading the file: {str(e)}",
-        )
-    for key, value in variables.items():
-        content = content.replace(f"{{{key}}}", str(value))
-
-    return content
-
-
 @app.post("/create_curriculum/")
 async def create_curriculum(request: CurriculumRequest):
     try:
-        prompt_text = [
-            {"role": "user", "content": get_prompt("generate_syllabus", dict(request))},
-            {
-                "role": "system",
-                "content": "You are a teacher. An AI assistant that will help in generating a cirriculum a teacher. Read the user demands carefully and generate the output.",
-            },
-        ]
+        ptext = sp.CURRICULUM_PROMPT
+        prompt_text = get_prompt("generate_syllabus", dict(request), ptext)
 
         response = client.chat.completions.create(
             model="gpt-4", messages=prompt_text, temperature=0.1
@@ -80,38 +58,23 @@ def generate_material(subtopics: list, constraint: str, subject: str):
             print("Subtopic: ", subtopic)
             generated_material += f"## {subtopic}\n\n"
             # Prepare the prompt text for each subtopic
-            prompt_text = (
-                f"Please write study material for the subtopic: '{subtopic}'. "
-                "You should start with a '##' heading for the subtopic title. "
-                "For any subdivisions or additional headings within this subtopic, "
-                "use '###' headings or lower. Do not use '##' headings except for the initial title of each subtopic."
-                "Make sure to strictly follow the following constraint. They must be strictly adhered to:"
-                f"{constraint}"
-                "Keep the content concise."
+            messages = get_prompt(
+                "generate_material",
+                {"subtopic": subtopic, "constraint": constraint},
+                sp.GENERATE_MATERIAL_PROMPT,
             )
-            messages = [
-                {"role": "user", "content": prompt_text},
-                {
-                    "role": "system",
-                    "content": "You're tasked to generate educational content. Keep it concise and informative.",
-                },
-            ]
 
-            # Request GPT to generate content for the subtopic
             response = client.chat.completions.create(
                 model="gpt-4",
                 messages=messages,
-                temperature=0.5,
-                max_tokens=1024,  # adjust as needed
+                temperature=0.1,
             )
 
             content = response.choices[0].message.content
 
-            # Since only one H2 and the rest should be H3
             if i == 0:
                 generated_material += content + "\n"
             else:
-                # Replace ## with ### if it's not the first subtopic
                 adjusted_content = content.replace("## ", "### ", 1)
                 generated_material += adjusted_content + "\n"
 
@@ -149,23 +112,11 @@ def gen(md_json, constraint, subject):
 @app.post("/generate_md/")
 async def generate_md(request: MarkdownCurriculumRequest):
     try:
-        prompt_text = (
-            "Convert the following markdown-formatted curriculum into a structured JSON format:\n\n"
-            + request.markdown_text
-            + "\nIf the input is - Topic:\n  - Subtopic 1\n  - Subtopic 2\n  - Subtopic 3\n\n"
-            + '\n\nThe desired JSON structure is: [{"topic": "topicName", "subtopics": ["subtopic 1", "subtopic 2", "subtopic 3", "Sub Subtopic 1"]}, {"topic": "topicName", "subtopics": ["subtopic 1", "subtopic 2", "subtopic 3"]}]'
-            + "\nThe subtopics list should be flat not nested."
-            + "\nOnly give the JSON structure and noting else. It should be directely parsable."
+        messages = get_prompt(
+            "convert_to_json",
+            {"markdown_text": request.markdown_text},
+            sp.CONVERT_TO_JSON_PROMPT,
         )
-
-        messages = [
-            {"role": "user", "content": prompt_text},
-            {
-                "role": "system",
-                "content": "You are a teacher. Read the user demands carefully and generate the output.",
-            },
-        ]
-
         response = client.chat.completions.create(
             model="gpt-4", messages=messages, temperature=0.1, max_tokens=512
         )
