@@ -1,3 +1,4 @@
 Please write study material for the subtopic: '{{subtopic}}'. You should start with a '##' heading for the subtopic title. For any subdivisions or additional headings within this subtopic, use '###' headings or lower. Do not use '##' headings except for the initial title of each subtopic. Make sure to strictly follow the following constraint. They must be strictly adhered to:
 {{constraint}}
+Keep all the content strictly relevant to {{subject}}, making sure that you are adhering to constraints.
 Keep the content concise.
