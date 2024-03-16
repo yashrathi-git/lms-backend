@@ -1,20 +1,9 @@
-import json
-import os
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.db import create_notes
-from .utils import md_to_json
-from openai import OpenAI
-from dotenv import load_dotenv
-from app.models import CurriculumRequest, MarkdownCurriculumRequest, UpdateNotes, QuizRequest
-import app.system_prompts as sp
-from app.utils import get_prompt
-import os
 import logging
 from rich.logging import RichHandler
-from .async_content_generation import generate_material
-from .config import MODEL, OPENAI_API_KEY
+from app.routes import generate_routes, quiz, update_quiz
 
 logging.basicConfig(
     level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()]
@@ -26,8 +15,6 @@ origins = [
 ]
 
 
-client = OpenAI(api_key=OPENAI_API_KEY)
-
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -38,75 +25,6 @@ app.add_middleware(
 )
 
 
-@app.post("/create_curriculum/")
-async def create_curriculum(request: CurriculumRequest):
-    try:
-        ptext = sp.CURRICULUM_PROMPT
-        prompt_text = get_prompt("generate_syllabus", dict(request), ptext)
-
-        response = client.chat.completions.create(
-            model=MODEL, messages=prompt_text, temperature=0.1
-        )
-
-        curriculum_text = response.choices[0].message.content
-        return {"curriculum": curriculum_text}
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while generating the curriculum: {str(e)}",
-        )
-
-
-@app.post("/generate_md/")
-async def generate_md(request: MarkdownCurriculumRequest):
-    try:
-        curr = md_to_json(request.markdown_text)
-        print(curr)
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while converting to JSON: {str(e)}",
-        )
-
-    generate_material(curr, constraint=request.constraints, subject=request.subject)
-    with open("out.md", "r") as f:
-        return {"markdown": f.read()}
-
-
-@app.get("/update_notes")
-async def update_notes(request: UpdateNotes):
-    try:
-        create_notes(
-            request.user_id,
-            request.subject,
-            request.topic,
-            request.subtopic,
-            request.notes,
-        )
-        return {"message": "Notes updated successfully"}
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while updating the notes: {str(e)}",
-        )
-
-@app.post("/generate_quiz/")
-async def generate_quiz(request: QuizRequest):
-    try:
-        ptext = sp.GENERATE_QUIZ_PROMPT
-        prompt_text = get_prompt("generate_quiz", dict(request), ptext)
-
-        response = client.chat.completions.create(
-            model=MODEL, messages=prompt_text, temperature=0.1
-        )
-
-        quiz_text = response.choices[0].message.content
-        cleaned_data = quiz_text.replace("\\", "").replace("\\n", "")
-        return cleaned_data
-    
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"An error occurred while generating the quiz: {str(e)}",
-        )
+app.include_router(generate_routes.router)
+app.include_router(quiz.router)
+app.include_router(update_quiz.router)

@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from app.config import MODEL, OPENAI_API_KEY
-from app.db import create_notes
+from app.db.notes_db import create_notes
 from app.utils import get_prompt
 import app.system_prompts as sp
 from openai import OpenAI

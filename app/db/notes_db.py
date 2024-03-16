@@ -1,14 +1,9 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
-
-cred = credentials.Certificate(
-    "./smart-lms-aad55-firebase-adminsdk-9jorz-d1598512f8.json"
-)
-firebase_admin.initialize_app(cred)
+from . import db
 
 
 def create_notes(user_id, subject_name, topic_name, subtopic_name, notes_content):
-    db = firestore.client()
     notes_doc_ref = db.collection("notes").document(user_id)
 
     doc = notes_doc_ref.get()

@@ -21,6 +21,7 @@ class UpdateNotes(BaseModel):
     subtopic: str
     note_id: str
 
+
 class QuizRequest(BaseModel):
     subject: str
     constraints: str
