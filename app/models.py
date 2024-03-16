@@ -20,3 +20,8 @@ class UpdateNotes(BaseModel):
     topic: str
     subtopic: str
     note_id: str
+
+class QuizRequest(BaseModel):
+    subject: str
+    constraints: str
+    number: str

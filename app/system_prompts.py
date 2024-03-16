@@ -8,3 +8,5 @@ GENERATE_MATERIAL_PROMPT = (
 )
 
 CONVERT_TO_JSON_PROMPT = "You are here to convert the given prompt to JSON."
+
+GENERATE_QUIZ_PROMPT = ( "You are a teacher. An AI assistant that will help in generating a quiz for a teacher. ")

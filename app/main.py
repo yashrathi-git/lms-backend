@@ -7,7 +7,7 @@ from app.db import create_notes
 from .utils import md_to_json
 from openai import OpenAI
 from dotenv import load_dotenv
-from app.models import CurriculumRequest, MarkdownCurriculumRequest, UpdateNotes
+from app.models import CurriculumRequest, MarkdownCurriculumRequest, UpdateNotes, QuizRequest
 import app.system_prompts as sp
 from app.utils import get_prompt
 import os
@@ -89,4 +89,23 @@ async def update_notes(request: UpdateNotes):
         raise HTTPException(
             status_code=500,
             detail=f"An error occurred while updating the notes: {str(e)}",
+        )
+
+@app.post("/generate_quiz/")
+async def generate_quiz(request: QuizRequest):
+    try:
+        ptext = sp.GENERATE_QUIZ_PROMPT
+        prompt_text = get_prompt("generate_quiz", dict(request), ptext)
+
+        response = client.chat.completions.create(
+            model=MODEL, messages=prompt_text, temperature=0.1
+        )
+
+        quiz_text = response.choices[0].message.content
+        return quiz_text
+    
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"An error occurred while generating the quiz: {str(e)}",
         )
