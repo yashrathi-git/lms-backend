@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from app.models import SubjectiveGenerate
 from . import client
+from app.db import db
 
 router = APIRouter()
 
@@ -20,3 +21,16 @@ async def get_explanation(prompt: str):
     )
     explanation = response.choices[0].message.content
     return {"explanation": explanation}
+
+
+@router.post("/generate_subjective")
+async def generate_subjective(request: SubjectiveGenerate):
+    doc_ref = db.collection("subjective_quiz").document()
+    doc_ref.set(dict(request))
+
+    return {"message": "Data stored successfully"}
+
+
+# @router.post("/submit_subjective")
+# async def submit_subjective(request: SubjectiveGenerate):
+#     # Get the document
