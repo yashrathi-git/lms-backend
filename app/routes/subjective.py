@@ -1,4 +1,6 @@
 from fastapi import APIRouter
+
+from app.models import SubjectiveGenerate
 from . import client
 
 router = APIRouter()

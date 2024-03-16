@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 
 import datetime
+import typing as t
+
 
 class CurriculumRequest(BaseModel):
     syllabus: str
@@ -28,12 +30,20 @@ class QuizRequest(BaseModel):
     subject: str
     constraints: str
     number: str
-    course_id:str
+    course_id: str
     end_date: datetime.datetime
-    
+
 
 class SubmitQuizRequest(BaseModel):
-    saved_answers : list
-    quiz_id:str
-    student_id:str
-    name:str
+    saved_answers: list
+    quiz_id: str
+    student_id: str
+    name: str
+
+
+class SubjectiveGenerate(BaseModel):
+    subject: str
+    constraints: t.List[str]
+    marks: t.List[int]
+    course_id: str
+    end_date: datetime.datetime
