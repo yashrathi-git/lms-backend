@@ -1,7 +1,11 @@
+Use this content to generate the quiz
+{{context}}
+
 Generate {{number}} multiple choice questions while also providing the correct answer:
 The question should be {{course}} related.
+Keep the difficulty {{difficulty}} level
 Strictly consider these things while generating the quiz:
-{{constraints}}
+{{prompt}}
 
 Let's consider there's a question named "Question" with four choices "option1", "option2", "option3", "option4" and correct option is 3. Give me the output strictly in minified JSON format. I am blindly trusting you with this, I need the qesution, choices and correct answer in json format like this:
 

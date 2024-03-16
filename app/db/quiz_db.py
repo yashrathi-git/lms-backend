@@ -80,6 +80,7 @@ def add_quiz(name,course_id, questions,end_date):
     quiz_ref.update({
         "quiz_id":quiz_id
     })
+    return quiz_id
 
 
 def submit_quiz(name,user_id, saved_answers, marks_scored):
@@ -113,14 +114,12 @@ def update_user_submitted_quiz(user_id: str, quiz_id: str):
     
 def retreive_upcoming_quizes(student_id):
     user_ref = db.collection(user_collection).document(student_id)
-    print('hey')
     quizes=[]
     user_data = user_ref.get().to_dict()
     quiz_ref = db.collection(quiz_collection)
     query=quiz_ref.stream()
     
     course_list = user_data['course_list']
-    print(course_list)
     quiz_ref = db.collection('quiz')
     query = quiz_ref.stream()
     
@@ -131,4 +130,8 @@ def retreive_upcoming_quizes(student_id):
                 quizes.append(quiz_data)
     return quizes
         
-retreive_upcoming_quizes("wfPc1lDadJcMcID4Nyyz")
+
+def update_quiz(questions,quiz_id):
+    quiz_ref = db.collection(quiz_collection).document(quiz_id)
+    
+    quiz_ref.update({'questions':questions})
