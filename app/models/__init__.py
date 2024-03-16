@@ -41,12 +41,15 @@ class SubmitQuizRequest(BaseModel):
     name: str
 
 
-class SubjectiveGenerate(BaseModel):
-    name: str
-    subject: str
-    questions: t.List[str]
+class SubjectiveQuestion(BaseModel):
+    question: str
     constraints: t.List[str]
     marks: t.List[int]
+
+
+class SubjectiveGenerate(BaseModel):
+    name: str
+    questions: t.List[SubjectiveQuestion]
     course_id: str
     end_date: datetime.datetime
 
@@ -54,7 +57,7 @@ class SubjectiveGenerate(BaseModel):
 class SubjectiveSubmit(BaseModel):
     user_id: str
     saved_answers: t.List[str]
-    quiz_id: str
+    subject: str
     name: str
     course_id: str
     end_date: datetime.datetime
