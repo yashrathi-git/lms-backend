@@ -57,7 +57,7 @@ class SubjectiveGenerate(BaseModel):
 class SubjectiveSubmit(BaseModel):
     user_id: str
     saved_answers: t.List[str]
-    subject: str
+    name: str
     name: str
     course_id: str
     end_date: datetime.datetime
