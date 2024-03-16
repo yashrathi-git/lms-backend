@@ -102,7 +102,8 @@ async def generate_quiz(request: QuizRequest):
         )
 
         quiz_text = response.choices[0].message.content
-        return quiz_text
+        cleaned_data = quiz_text.replace("\\", "").replace("\\n", "")
+        return cleaned_data
     
     except Exception as e:
         raise HTTPException(
