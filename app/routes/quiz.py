@@ -29,18 +29,27 @@ async def generate_quiz(request: QuizRequest):
             status_code=500,
             detail=f"An error occurred while generating the quiz: {str(e)}",
         )
-
+def calculate_marks(correct_answers,saved_answers):
+    marks=0
+    for i in range(len(correct_answers)):
+        if(correct_answers[i] == saved_answers[i]):
+            print("correct answer is "+correct_answers[i])
+            print("saved is "+saved_answers[i])
+            marks+=1
+        return marks
 @router.post("/save_student_answers/")
 async def save_student_answers(request: SubmitQuizRequest):
     try:
-        marks=0
+        print(request.quiz_id)
+        print(request.saved_answers)
         correct_answers = retreive_correct_answers(request.quiz_id)
-        for i in range(len(correct_answers)):
-            if(correct_answers[i]==request.saved_answers[i]):
-                marks+=1
-        submit_quiz(request.quiz_id,request.saved_answers,marks)
+        marks = calculate_marks(correct_answers,request.saved_answers,marks)
+        submit_quiz(request.name,request.quiz_id,request.saved_answers,marks)
         update_user_submitted_quiz(request.student_id,request.quiz_id)
-        return {"message": "Student answers saved successfully for quiz ID: {quiz_id}"}
+        print(request.saved_answers)
+        print(request.quiz_id)
+        print(request)
+        return {"message": "Student answers saved successf0.0.ully for quiz ID: {quiz_id}"}
 
     except Exception as e:
         raise HTTPException(
