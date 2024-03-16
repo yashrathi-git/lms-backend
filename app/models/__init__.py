@@ -36,3 +36,4 @@ class SubmitQuizRequest(BaseModel):
     saved_answers : list
     quiz_id:str
     student_id:str
+    name:str
