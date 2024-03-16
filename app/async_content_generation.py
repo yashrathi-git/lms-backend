@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from app.config import MODEL, OPENAI_API_KEY
-from app.db import create_notes
+from app.db import create_notes, update_notes
 from app.utils import get_prompt
 import app.system_prompts as sp
 from openai import OpenAI
@@ -10,7 +10,7 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 def subtopic_generate_material(
-    subtopics: list, constraint: str, subject: str, user_id: str
+    subtopics: list, constraint: str, subject: str, user_id: str, topic: str
 ):
     try:
         for subtopic in subtopics:
@@ -31,7 +31,7 @@ def subtopic_generate_material(
 
             content = response.choices[0].message.content
             # Here you call create_notes to update Firestore
-            create_notes(user_id, subject, subtopic, constraint, content)
+            update_notes(user_id, subject, topic, subtopic, content)
 
     except Exception as e:
         raise HTTPException(
@@ -40,7 +40,7 @@ def subtopic_generate_material(
         )
 
 
-def generate_material(curr, constraint, subject, user_id="default_userid"):
+def generate_material(curr, constraint, subject, user_id="default_userid2"):
     print("Generating")
 
     try:
@@ -49,7 +49,9 @@ def generate_material(curr, constraint, subject, user_id="default_userid"):
             print("Gen Topic: ", topic)
 
             # Now integrates directly with Firebase instead of writing to a file
-            subtopic_generate_material(t["subtopics"], constraint, subject, user_id)
+            subtopic_generate_material(
+                t["subtopics"], constraint, subject, user_id, topic
+            )
 
     except Exception as e:
         raise HTTPException(

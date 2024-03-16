@@ -13,6 +13,11 @@ import logging
 from rich.logging import RichHandler
 from .async_content_generation import generate_material
 from .config import MODEL, OPENAI_API_KEY
+from .db import create_wireframe
+from rich.traceback import install
+
+install()
+
 
 logging.basicConfig(
     level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler()]
@@ -67,6 +72,7 @@ async def generate_md(request: MarkdownCurriculumRequest):
             detail=f"An error occurred while converting to JSON: {str(e)}",
         )
 
+    create_wireframe("default_userid2", request.subject, curr)
     generate_material(curr, constraint=request.constraints, subject=request.subject)
     with open("out.md", "r") as f:
         return {"markdown": f.read()}

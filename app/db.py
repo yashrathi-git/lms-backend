@@ -47,3 +47,72 @@ def create_notes(user_id, subject_name, topic_name, subtopic_name, notes_content
                 ]
             }
         )
+
+
+def update_notes(user_id, subject_name, topic_name, subtopic_name, new_content):
+    db = firestore.client()
+    notes_doc_ref = db.collection("notes").document(user_id)
+
+    doc = notes_doc_ref.get()
+    if not doc.exists:
+        print("No such document!")
+        return
+
+    data = doc.to_dict()
+    subject_data = data.get(subject_name)
+
+    if subject_data is None:
+        print(f"No such subject: {subject_name}")
+        return
+
+    # Find the topic
+    for topic in subject_data:
+        if topic.get("name") == topic_name:
+            # Find the subtopic
+            for subtopic in topic.get("subtopics", []):
+                if subtopic.get("name") == subtopic_name:
+                    # Update content
+                    subtopic["content"] = new_content
+                    break
+            else:
+                print(f"No such subtopic: {subtopic_name}")
+                return
+            break
+    else:
+        print(f"No such topic: {topic_name}")
+        return
+
+    # Update Firestore document
+    notes_doc_ref.set(data)
+
+    print(
+        f"Successfully updated content for {subtopic_name} in {topic_name} under {subject_name}."
+    )
+
+
+def _restructure_data(data):
+    new_structure = []
+    for item in data:
+        topic_info = {"topic": item["topic"], "subtopics": []}
+        for subtopic in item["subtopics"]:
+            submodule = {"topic": subtopic, "content": "s"}
+            topic_info["subtopics"].append(submodule)
+        new_structure.append(topic_info)
+    return new_structure
+
+
+def _create_wireframe(user_id, subject_name, data):
+    db = firestore.client()
+    user_doc_ref = db.collection("notes").document(user_id)
+
+    # Structure the data with subject_name as a key
+    subject_data = {subject_name: data}
+
+    # Set the data in the document, use merge=True to avoid overwriting other subjects
+    user_doc_ref.set(subject_data)
+
+    print(f"Data for '{subject_name}' subject has been set/updated for user {user_id}.")
+
+
+def create_wireframe(user_id, subject_name, data):
+    _create_wireframe(user_id, subject_name, _restructure_data(data))
