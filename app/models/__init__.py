@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 
 import datetime
+import typing as t
+
 
 class CurriculumRequest(BaseModel):
     syllabus: str
