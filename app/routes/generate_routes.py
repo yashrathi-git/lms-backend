@@ -41,5 +41,10 @@ async def generate_md(request: MarkdownCurriculumRequest):
             detail=f"An error occurred while converting to JSON: {str(e)}",
         )
 
-    generate_material(curr, constraint=request.constraints, subject=request.subject)
+    generate_material(
+        curr,
+        constraint=request.constraints,
+        subject=request.subject,
+        user_id=request.user_id,
+    )
     return {"message": "Material generated successfully"}

@@ -11,6 +11,7 @@ class MarkdownCurriculumRequest(BaseModel):
     markdown_text: str
     constraints: str
     subject: str
+    user_id: str
 
 
 class UpdateNotes(BaseModel):
