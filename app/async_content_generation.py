@@ -10,7 +10,7 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 def subtopic_generate_material(
-    subtopics: list, constraint: str, subject: str, user_id: str
+    subtopics: list, constraint: str, subject: str, user_id: str, topic: str
 ):
     try:
         for subtopic in subtopics:
@@ -30,8 +30,7 @@ def subtopic_generate_material(
             )
 
             content = response.choices[0].message.content
-            # Here you call create_notes to update Firestore
-            create_notes(user_id, subject, subtopic, constraint, content)
+            create_notes(user_id, subject, topic, subtopic, content)
 
     except Exception as e:
         raise HTTPException(
@@ -49,7 +48,9 @@ def generate_material(curr, constraint, subject, user_id="default_userid"):
             print("Gen Topic: ", topic)
 
             # Now integrates directly with Firebase instead of writing to a file
-            subtopic_generate_material(t["subtopics"], constraint, subject, user_id)
+            subtopic_generate_material(
+                t["subtopics"], constraint, subject, user_id, topic
+            )
 
     except Exception as e:
         raise HTTPException(
