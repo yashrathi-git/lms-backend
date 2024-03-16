@@ -3,7 +3,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import uuid
 # Initialize Firebase Admin SDK with your service account credentials
-cred = credentials.Certificate("credentials.json")
+cred = credentials.Certificate("smart-lms-aad55-firebase-adminsdk-9jorz-d1598512f8.json")
 firebase_admin.initialize_app(cred)
 
 # Get a Firestore client
@@ -66,8 +66,8 @@ def submit_quiz(user_id,saved_answers,marks_scored):
         "saved_answers": saved_answers,
         "marks_scored": marks_scored
     })
-add_user("Modi","modi@gmail","teacher")
-#add_course("Python", "https://www.python.org/static/community_logos/python-logo-master-v3-TM.png")
+#add_user("Modi","modi@gmail","teacher")
+add_course("dbms", "BCSE","https://www.python.org/static/community_logos/python-logo-master-v3-TM.png")
 # assign_course_to_user( "8184e5fb-d03d-4130-8d01-9e87dbc151df","39e8716f-ad5b-49a7-b492-3fcbece6d3b5")
 
 questions = [
