@@ -2,10 +2,12 @@ import json
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.db import create_notes
 from .utils import md_to_json
 from openai import OpenAI
 from dotenv import load_dotenv
-from app.models import CurriculumRequest, MarkdownCurriculumRequest
+from app.models import CurriculumRequest, MarkdownCurriculumRequest, UpdateNotes
 import app.system_prompts as sp
 from app.utils import get_prompt
 import os
@@ -70,3 +72,21 @@ async def generate_md(request: MarkdownCurriculumRequest):
     generate_material(curr, constraint=request.constraints, subject=request.subject)
     with open("out.md", "r") as f:
         return {"markdown": f.read()}
+
+
+@app.get("/update_notes")
+async def update_notes(request: UpdateNotes):
+    try:
+        create_notes(
+            request.user_id,
+            request.subject,
+            request.topic,
+            request.subtopic,
+            request.notes,
+        )
+        return {"message": "Notes updated successfully"}
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"An error occurred while updating the notes: {str(e)}",
+        )
