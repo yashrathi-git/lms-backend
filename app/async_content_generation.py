@@ -19,7 +19,7 @@ def subtopic_generate_material(
             # Prepare the prompt text for each subtopic
             messages = get_prompt(
                 "generate_material",
-                {"subtopic": subtopic, "constraint": constraint},
+                {"subtopic": subtopic, "constraint": constraint, "subject": subject},
                 sp.GENERATE_MATERIAL_PROMPT,
             )
 
