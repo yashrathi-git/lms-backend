@@ -3,6 +3,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import uuid
 from . import db
+from datetime import datetime
 
 
 user_collection = "users"
@@ -12,30 +13,40 @@ quiz_collection = "quiz"
 submit_quiz_collection = "submit_quiz"
 
 
-def add_user(name, email, user_type):
-    user_id = str(uuid.uuid4())
+def add_user(name, email, user_type,course_list):
+    user_ref = db.collection(user_collection).document()
+    
+    user_ref.set({
+        "name":name,
+        "email":email,
+        "user_type":user_type,
+        "course_list":course_list,
+        "submitted_quiz":[]
+    })
+    user_id= user_ref.id
 
-    db.collection(user_collection).document("2").set(
-        {"user_id": user_id, "name": name, "email": email, "type": user_type}
-    )
-
+    user_ref.update({
+        "user_id":user_id
+    })
     print("User added successfully with ID:", user_id)
 
 
 def add_course(name, course_code, image_url):
-    course_id = str(uuid.uuid4())
+    course_ref = db.collection(course_collection).document()  # Create a new document reference
 
-    db.collection(course_collection).document(course_id).set(
-        {
-            "course_id": course_id,
-            "name": name,
-            "course_code": course_code,
-            "image_url": image_url,
-        }
-    )
+    course_ref.set({
+        "name": name,
+        "course_code": course_code,
+        "image_url": image_url,
+    })
+
+    course_id = course_ref.id  # Get the auto-generated course ID
+
+    course_ref.update({
+        "course_id": course_id  # Update the document with the actual course ID
+    })
 
     print("Course added successfully with ID:", course_id)
-
 
 def assign_course_to_user(user_id, course_id):
     user_ref = db.collection(user_collection).document(user_id)
@@ -55,8 +66,8 @@ def add_assignment(course_id, pdf_url, question, deadline):
     )
 
 
-def add_quiz(course_id, questions):
-    db.collection(quiz_collection).add({"course_id": course_id, "questions": questions})
+def add_quiz(course_id, questions,end_date):
+    db.collection(quiz_collection).add({"course_id": course_id, "questions": questions, "end_date":end_date})
 
 
 def submit_quiz(user_id, saved_answers, marks_scored):
@@ -68,33 +79,38 @@ def submit_quiz(user_id, saved_answers, marks_scored):
         }
     )
 
+def retreive_correct_answers(quiz_id):
+    quiz_doc = db.collection(quiz_collection).document(quiz_id).get().to_dict()
+    #quiz_questions = quiz_doc['questions']
+    print('printing')
+    data = quiz_doc['questions']
+    correct_answer_values = [item['correct_answer'] for item in data]
+    print(correct_answer_values)
+    return correct_answer_values
 
-# add_user("Modi","modi@gmail","teacher")
-add_course(
-    "dbms",
-    "BCSE",
-    "https://www.python.org/static/community_logos/python-logo-master-v3-TM.png",
-)
-# assign_course_to_user( "8184e5fb-d03d-4130-8d01-9e87dbc151df","39e8716f-ad5b-49a7-b492-3fcbece6d3b5")
+def update_user_submitted_quiz(user_id: str, quiz_id: str):
+    user_ref = db.collection(user_collection).document(user_id)  # Assuming 'users' collection in Firestore
 
-questions = [
-    {
-        "question": "What is the capital of France?",
-        "choices": ["Paris", "London", "Berlin", "Madrid"],
-        "correct_answer": "Paris",
-    },
-    {
-        "question": "Who invented the telephone?",
-        "choices": [
-            "Thomas Edison",
-            "Alexander Graham Bell",
-            "Albert Einstein",
-            "Nikola Tesla",
-        ],
-        "correct_answer": "Alexander Graham Bell",
-    },
-]
+    user_data = user_ref.get().to_dict()  # Get the user's existing data
+    submitted_quizzes = user_data.get('submitted_quizzes', [])  # Get the list of submitted quizzes or an empty list
 
-# submit_quiz("8184e5fb-d03d-4130-8d01-9e87dbc151df",["Paris","Alexander Graham Bell"],10)
+    if quiz_id not in submitted_quizzes:
+        submitted_quizzes.append(quiz_id)  # Append the new quiz ID if it's not already in the list
 
-# add_assignment("39e8716f-ad5b-49a7-b492-3fcbece6d3b5","random_url","How to center a div in CSS?", "2021-12-31")
+    user_ref.update({'submitted_quizzes': submitted_quizzes})  # Update the user's document with the modified list
+    
+def retreive_upcoming_quizes():
+    current_datetime = datetime.now()
+    active_quizzes = []
+    quiz_ref = db.collection(quiz_collection)
+    query = quiz_ref.where('end_date', '>', current_datetime).stream()
+    print(query)
+    for quiz in query:
+        quiz_data = quiz.to_dict()
+        active_quizzes.append(quiz_data)
+
+    return active_quizzes
+
+quiz = retreive_upcoming_quizes()
+print('print')
+print(quiz)

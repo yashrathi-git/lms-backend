@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+import datetime
 
 class CurriculumRequest(BaseModel):
     syllabus: str
@@ -27,3 +28,11 @@ class QuizRequest(BaseModel):
     subject: str
     constraints: str
     number: str
+    course_id:str
+    end_date: datetime.datetime
+    
+
+class SubmitQuizRequest(BaseModel):
+    saved_answers : list
+    quiz_id:str
+    student_id:str

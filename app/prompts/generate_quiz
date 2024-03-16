@@ -10,3 +10,4 @@ Let's consider there's a question named "Question" with four choices "option1", 
         "choices": ["option1", "option2", "option3", "option4"],
         "correct_answer": "3"
 }
+I will directely use your response to do a json.loads(). Give me the output in JSON only and nothing else. Perfect JSON minified.
